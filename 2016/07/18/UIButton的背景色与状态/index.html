@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+  <!-- Html Head Tag-->
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="Yu Song">
+  <!-- Open Graph Data -->
+  <meta property="og:title" content="UIButton的背景色与状态"/>
+  <meta property="og:description" content="" />
+  <meta property="og:site_name" content="登高望远"/>
+  <meta property="og:type" content="article" />
+  <meta property="og:image" content="http://yoursite.com"/>
+  
+    <link rel="alternate" href="/atom.xml" title="登高望远" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+
+  <!-- Site Title -->
+  <title>登高望远</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/blog/css/bootstrap.min.css">
+  <!-- Custom CSS -->
+  
+  <link rel="stylesheet" href="/blog/css/style.dark.css">
+
+  <!-- Google Analytics -->
+  
+
+</head>
+
+  <body>
+    <!-- Page Header -->
+
+
+<header class="site-header header-background" style="background-image: url(/blog//img/default-banner-dark.jpg)">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="page-title with-background-image">
+          <p class="title">UIButton的背景色与状态</p>
+          <p class="subtitle"></p>
+        </div>
+        <div class="site-menu with-background-image">
+          <ul>
+            
+              <li>
+                <a href="/blog/">
+                  
+                  Home
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="/blog/archives">
+                  
+                  Archives
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="https://github.com/beishankin">
+                  
+                  Github
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="mailto:syiosengineer1992@gmail.com">
+                  
+                  Email
+                  
+                </a>
+              </li>
+            
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<article>
+  <div class="container typo">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-info text-muted">
+          
+            <!-- Author -->
+            <span class="author info">By Yu Song</span>
+          
+          <!-- Date -->
+          <span class="date-time info">On
+            <span class="date">2016-07-18</span>
+            <span class="time">17:35:20</span>
+          </span>
+          
+          <!--  Categories  -->
+            <span class="categories info">Under 
+
+<a href="/blog/categories/iOS/">iOS</a>
+</span>
+          
+        </div>
+        <!-- Tags -->
+        
+          <div class="post-tags text-muted">
+            Tags: 
+
+<a class="tag" href="/blog/tags/iOS/">#iOS</a>
+
+
+          </div>
+        
+        <!-- Post Main Content -->
+        <div class="post-content">
+          <p>众所周知，前言很难写，这篇文章的前言我是编不出来啦。</p>
+<a id="more"></a>
+<p>在使用UIButton是，由于UIButton具有多种状态，如下：<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="built_in">NS_OPTIONS</span>(<span class="built_in">NSUInteger</span>, <span class="built_in">UIControlState</span>) &#123;</span><br><span class="line">    <span class="built_in">UIControlStateNormal</span>       = <span class="number">0</span>,</span><br><span class="line">    <span class="built_in">UIControlStateHighlighted</span>  = <span class="number">1</span> &lt;&lt; <span class="number">0</span>,                  <span class="comment">// used when UIControl isHighlighted is set</span></span><br><span class="line">    <span class="built_in">UIControlStateDisabled</span>     = <span class="number">1</span> &lt;&lt; <span class="number">1</span>,</span><br><span class="line">    <span class="built_in">UIControlStateSelected</span>     = <span class="number">1</span> &lt;&lt; <span class="number">2</span>,                  <span class="comment">// flag usable by app (see below)</span></span><br><span class="line">    <span class="built_in">UIControlStateFocused</span> <span class="built_in">NS_ENUM_AVAILABLE_IOS</span>(<span class="number">9</span>_0) = <span class="number">1</span> &lt;&lt; <span class="number">3</span>, <span class="comment">// Applicable only when the screen supports focus</span></span><br><span class="line">    <span class="built_in">UIControlStateApplication</span>  = <span class="number">0x00FF0000</span>,              <span class="comment">// additional flags available for application use</span></span><br><span class="line">    <span class="built_in">UIControlStateReserved</span>     = <span class="number">0xFF000000</span>               <span class="comment">// flags reserved for internal framework use</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>但是UIButton虽然提供了各种状态下设置图片和设置文字的接口，却没有提供各种状态下设置背景颜色的接口。<br>所以当各种状态下需要不同的backgroundColor时就会比较麻烦，所以我们需要自定义一个实现这种需求的接口，实现方法很简单，如下：<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">UIGraphicsBeginImageContext</span>(<span class="built_in">CGSizeMake</span>(<span class="number">1</span>, <span class="number">1</span>));</span><br><span class="line"><span class="built_in">UIBezierPath</span> *path = [<span class="built_in">UIBezierPath</span> bezierPathWithRect:<span class="built_in">CGRectMake</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>)];</span><br><span class="line">[backgroundColor set];</span><br><span class="line">[path fill];</span><br><span class="line"><span class="built_in">UIImage</span> *backgroundImage = <span class="built_in">UIGraphicsGetImageFromCurrentImageContext</span>();</span><br><span class="line"><span class="keyword">self</span>.backgroundColor = [<span class="built_in">UIColor</span> whiteColor];</span><br><span class="line">[<span class="keyword">self</span> setBackgroundImage:backgroundImage forState:state];</span><br></pre></td></tr></table></figure></p>
+<p>这个方法可以装在一个category中来使用，也可以通过继承UIButton来实现一个自己的Button方法。<br>这样，当遇到UIButton不同状态时需要不同的背景色处理起来就会很方便啦。</p>
+<p>方法介绍到这，下面是一个关于神坑的故事。。。。<br>今天写项目的时候，突然发现UIButton的背景色莫名其妙的变成了半透明状，让我十分诧异，进行了各种检查，却还是没有发现问题所在。直到我再次跳入如上这段代码中，我才发现的一个问题。我的项目里的代码是这样的：<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">UIGraphicsBeginImageContext</span>(<span class="built_in">CGSizeMake</span>(<span class="number">1</span>, <span class="number">1</span>));</span><br><span class="line"><span class="built_in">UIBezierPath</span> *path = [<span class="built_in">UIBezierPath</span> bezierPathWithOvalInRect:<span class="built_in">CGRectMake</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>)];</span><br><span class="line">[backgroundColor set];</span><br><span class="line">[path fill];</span><br><span class="line"><span class="built_in">UIImage</span> *backgroundImage = <span class="built_in">UIGraphicsGetImageFromCurrentImageContext</span>();</span><br><span class="line"><span class="keyword">self</span>.backgroundColor = [<span class="built_in">UIColor</span> whiteColor];</span><br><span class="line">[<span class="keyword">self</span> setBackgroundImage:backgroundImage forState:state];</span><br></pre></td></tr></table></figure></p>
+<p>那么问题来啦。。。。你们发现不同了嘛？<br>没错，就是我在制作背景图时，把正方形画成了圆形。。。。这就™很尴尬啦。。。。由于我的画布是1*1的正方形，而画出来的是一个圆形，所以这个背景图会有部分是clearColor，然后当背景图被拉伸时，就莫名弃疗的拉伸出了一个半透明的效果。。。。天哪。。。真神奇。。。。<br>而就是这个神奇的效果，让我一直没有想到BUG产生的原因居然在这里。。。还以为是哪里的alpha出了问题。。。。<br>好啦，虽然我觉得这样的BUG大概除了我都不会再有人出现了，但是，我觉得这种情况似乎也蛮有趣，说不定以后会在哪里用到，所以记录一下。</p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+
+
+    <!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <p class="copyright text-muted">
+          Theme By <a target="_blank" href="https://github.com/levblanc">Levblanc.</a>
+          Inspired By <a target="_blank" href="https://github.com/klugjo/hexo-theme-clean-blog">Clean Blog.</a>
+        <p class="copyright text-muted">
+          Powered By <a target="_blank" href="https://hexo.io/">Hexo.</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- After Footer Scripts -->
+<script src="/blog/js/highlight.pack.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function(event) {
+    var codeBlocks = Array.prototype.slice.call(document.getElementsByTagName('pre'))
+    codeBlocks.forEach(function(block, index) {
+      hljs.highlightBlock(block);
+    });
+  });
+</script>
+
+  </body>
+</html>
+

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+  <!-- Html Head Tag-->
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="Yu Song">
+  <!-- Open Graph Data -->
+  <meta property="og:title" content="iOS视音频采集技术（一）"/>
+  <meta property="og:description" content="" />
+  <meta property="og:site_name" content="登高望远"/>
+  <meta property="og:type" content="article" />
+  <meta property="og:image" content="http://yoursite.com"/>
+  
+    <link rel="alternate" href="/atom.xml" title="登高望远" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+
+  <!-- Site Title -->
+  <title>登高望远</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/blog/css/bootstrap.min.css">
+  <!-- Custom CSS -->
+  
+  <link rel="stylesheet" href="/blog/css/style.dark.css">
+
+  <!-- Google Analytics -->
+  
+
+</head>
+
+  <body>
+    <!-- Page Header -->
+
+
+<header class="site-header header-background" style="background-image: url(/blog//img/default-banner-dark.jpg)">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="page-title with-background-image">
+          <p class="title">iOS视音频采集技术（一）</p>
+          <p class="subtitle"></p>
+        </div>
+        <div class="site-menu with-background-image">
+          <ul>
+            
+              <li>
+                <a href="/blog/">
+                  
+                  Home
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="/blog/archives">
+                  
+                  Archives
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="https://github.com/beishankin">
+                  
+                  Github
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="mailto:syiosengineer1992@gmail.com">
+                  
+                  Email
+                  
+                </a>
+              </li>
+            
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<article>
+  <div class="container typo">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-info text-muted">
+          
+            <!-- Author -->
+            <span class="author info">By Yu Song</span>
+          
+          <!-- Date -->
+          <span class="date-time info">On
+            <span class="date">2016-11-24</span>
+            <span class="time">17:35:20</span>
+          </span>
+          
+          <!--  Categories  -->
+            <span class="categories info">Under 
+
+<a href="/blog/categories/iOS/">iOS</a>
+</span>
+          
+        </div>
+        <!-- Tags -->
+        
+          <div class="post-tags text-muted">
+            Tags: 
+
+<a class="tag" href="/blog/tags/iOS/">#iOS</a> <a class="tag" href="/blog/tags/音频/">#音频</a> <a class="tag" href="/blog/tags/视频/">#视频</a>
+
+
+          </div>
+        
+        <!-- Post Main Content -->
+        <div class="post-content">
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>这是一个关于视音频的系列文章，代码不追求质量，只把我认为最关键的部分提取出来，旨在方便学习，所以不建议直接用在项目之中。<br>本篇文章主要参考自：ObjC 中国</p>
+<a id="more"></a>
+<p>视频资源获取<br>  UIImagePickerController使用  </p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">if UIImagePickerController.isSourceTypeAvailable(.camera) &#123;</span><br><span class="line"> let imageVc = UIImagePickerController.init()</span><br><span class="line"> imageVc.sourceType = .camera</span><br><span class="line"> imageVc.mediaTypes = [kUTTypeMovie as String]</span><br><span class="line"> imageVc.videoQuality = .typeHigh</span><br><span class="line"> imageVc.delegate = self;</span><br><span class="line"> self.present(imageVc, animated: true, completion: nil)</span><br><span class="line">&#125;</span><br><span class="line">````  </span><br><span class="line"></span><br><span class="line">AVFoundation视音频采集 </span><br><span class="line">AVCaptureDevice -&gt; AVCaptureDeviceInput -&gt; AVCaptureSession</span><br></pre></td></tr></table></figure>
+<p>  AVCaptureSession <em>captureSession = [[AVCaptureSession alloc] init];<br>  self.captureSession = captureSession;<br>  // 摄像头设备配置<br>  AVCaptureDevice </em>cameraDevice;<br>  NSArray <em>devices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];<br>  for (AVCaptureDevice </em>device in devices) {<br>      if (device.positon == AVCaptureDevicePositionBack) {<br>          cameraDevice = device;<br>      }<br>  }<br>  AVCaptureDeviceInput <em>cameraDeviceInput = [[AVCaptureDeviceInput alloc] initWithDevice:cameraDevice error:nil];<br>  // 麦克风设备配置<br>  AVAudioSession </em>audioSession = [AVAudioSession shareInstance];<br>  [audioSession setCategory:AVAudioSessionCategoryPlayBack error:nil];<br>  NSArray <em>inputs = [audioSession availableInputs];<br>  AVAudioSessionPortDescription </em>builtInMic = nil;<br>  for (AVAudioSessionPortDescription <em>port in inputs) {<br>      if ([port.portType isEqualToString:AVAudioSessionPortBuiltInMic]) {<br>          builtInMic = port;<br>          break;<br>      }<br>  }<br>  for (AVAudioSessionDataSourceDescription </em>source in builtInMic.dataSources) {<br>    if ([source.orientation isEqualToString:AVAudioSessionOrientationFront]) {<br>        [builtInMic setPreferredDataSource:source error:nil];<br>        [audioSession setPreferredInput:builtInMic error:nil];<br>        break;<br>    }<br>  }<br>  AVCaptureDeviceInput <em>micDeviceInput = [[AVCaptureDeviceInput alloc] initWithDevice:[AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeAudio] error:nil];<br>  if ([captureSession canAddInput:cameraDeviceInput]) {<br>      [captureSession addInput:cameraDeviceInput];<br>  }<br>  if ([captureSession canAddInput:micDeviceInput]) {<br>      [captureSession addInput:micDeviceInput];<br>  }<br>  AVCaptureVideoPreviewLayer </em>previewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:captureSession];<br>  previewLayer.frame = self.view.bounds;<br>  [self.view.layer insertSublayer:previewLayer atIndex:0];<br>  self.captureSession.sessionPreset = AVCaptureSessionPresetHigh;<br>  [self.captureSession startRunning];<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">FileOutput视音频文件输出  </span><br><span class="line">AVCaptureSession -&gt; AVCaptureMovieFileOutput</span><br></pre></td></tr></table></figure></p>
+<p>AVCaptureMovieFileOutput *movieFileOutput = [AVCaptureMovieFileOutput new];<br>if ([self.captureSession canAddOutput:movieFileOutput]) {<br>    [self.captureSession addOutput:movieFileOutput];<br>}<br>// 开始录像<br>[self.movieFileOutput startRecordingToOutputFileURL:url recordingDelegate:self];<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">````</span><br><span class="line">- (void)captureOutput:(AVCaptureFileOutput *)captureOutput didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL fromConnections:(NSArray *)connections error:(NSError *)error &#123;</span><br><span class="line">	// 录像结束后调用</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Writer视音频输出<br>captureSession -&gt; captureVideo(or Audio)DataOutput<br>assetWriter -&gt; assetWriterInput<br>captureSession 和 writer是平级，不需要关联<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// Output</span><br><span class="line">AVCaptureVideoDataOutput *videoDataOutput = [AVCaptureVideoDataOutput new];</span><br><span class="line">videoDataOutput.alwaysDiscardsLateVideoFrames = NO;</span><br><span class="line">[videoDataOutput setSampleBufferDelegate:self queue:dispatch_get_main_queue()];</span><br><span class="line">videoDataOutput.videoSettings = nil;</span><br><span class="line">[self.captureSession addOutput:videoDataOutput];</span><br><span class="line">self.videoConnection = [videoDataOutput connectionWithMediaType:AVMediaTypeVideo];</span><br><span class="line">self.videoSettings = [videoDataOutput recommendedVideoSettingsForAssetWriterWithOutputFileType:AVFileTypeQuickTimeMovie];</span><br><span class="line"></span><br><span class="line">AVCaptureAudioDataOutput *audioDataOutput = [AVCaptureAudioDataOutput new];</span><br><span class="line">[audioDataOutput setSampleBufferDelegate:self queue:dispatch_get_main_queue()];</span><br><span class="line">[self.captureSession addOutput:audioDataOutput];</span><br><span class="line">self.audioConnection = [audioDataOutput connectionWithMediaType:AVMediaTypeAudio];</span><br><span class="line">self.audioSettings = [audioDataOutput recommendedAudioSettingsForAssetWriterWithOutputFileType:AVFileTypeQuickTimeMovie];</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">// Writer</span><br><span class="line">AVAssetWriter *write = [[AVAssetWriter alloc] initWithURL:url fileType:AVFileTypeQuickTimeMovie error:nil];</span><br><span class="line">    </span><br><span class="line">AVAssetWriterInput *videoInput = [[AVAssetWriterInput alloc] initWithMediaType:AVMediaTypeVideo outputSettings:self.videoSettings];</span><br><span class="line">videoInput.expectsMediaDataInRealTime = YES;</span><br><span class="line">videoInput.transform = CGAffineTransformMakeRotation(M_PI_2);</span><br><span class="line">if ([write canAddInput:videoInput]) &#123;</span><br><span class="line">    [write addInput:videoInput];</span><br><span class="line">    self.videoInput = videoInput;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">AVAssetWriterInput *audioInput = [[AVAssetWriterInput alloc] initWithMediaType:AVMediaTypeAudio outputSettings:self.audioSettings];</span><br><span class="line">audioInput.expectsMediaDataInRealTime = YES;</span><br><span class="line">if ([write canAddInput:audioInput]) &#123;</span><br><span class="line">    [write addInput:audioInput];</span><br><span class="line">    self.audioInput = audioInput;</span><br><span class="line">&#125;</span><br><span class="line">self.writer = write;</span><br><span class="line">BOOL success = [self.writer startWriting];</span><br><span class="line">if (!success) &#123;</span><br><span class="line">    NSError *error = self.writer.error;</span><br><span class="line">    NSLog(@&quot;error ---------- %@&quot;, error);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>视频开始采集后需要在DataOutput的代理方法中使用writerInput采集buffer。<br>使用writer采集数据可定制性更高。</p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+
+
+    <!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <p class="copyright text-muted">
+          Theme By <a target="_blank" href="https://github.com/levblanc">Levblanc.</a>
+          Inspired By <a target="_blank" href="https://github.com/klugjo/hexo-theme-clean-blog">Clean Blog.</a>
+        <p class="copyright text-muted">
+          Powered By <a target="_blank" href="https://hexo.io/">Hexo.</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- After Footer Scripts -->
+<script src="/blog/js/highlight.pack.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function(event) {
+    var codeBlocks = Array.prototype.slice.call(document.getElementsByTagName('pre'))
+    codeBlocks.forEach(function(block, index) {
+      hljs.highlightBlock(block);
+    });
+  });
+</script>
+
+  </body>
+</html>
+
