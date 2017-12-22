@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="Yu Song">
   <!-- Open Graph Data -->
-  <meta property="og:title" content="Hello World"/>
+  <meta property="og:title" content="Hexo博客搭建"/>
   <meta property="og:description" content="" />
   <meta property="og:site_name" content="登高望远"/>
   <meta property="og:type" content="article" />
@@ -43,7 +43,7 @@
     <div class="row">
       <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
         <div class="page-title with-background-image">
-          <p class="title">Hello World</p>
+          <p class="title">Hexo博客搭建</p>
           <p class="subtitle"></p>
         </div>
         <div class="site-menu with-background-image">
@@ -106,17 +106,43 @@
         </div>
         <!-- Tags -->
         
+          <div class="post-tags text-muted">
+            Tags: 
+
+<a class="tag" href="/blog/tags/杂项/">#杂项</a>
+
+
+          </div>
+        
         <!-- Post Main Content -->
         <div class="post-content">
-          <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+          <p>从2015年起开始博客写作，到目前为止写下的相关文章应该也有50篇左右，从最开始的CSDN到后来的简书，终于走上了自己搭建博客的道路。所以按照惯例，写下这篇文章，记录自己搭建博客的经过。</p>
+<p>博客搭建使用了Hexo，基本没有遇到什么难题，总共大概用了一个上午的时间，虽有小坑，但都不算难。</p>
+<p>闲话少说，进入正题</p>
+<h1 id="前期准备"><a href="#前期准备" class="headerlink" title="前期准备"></a>前期准备</h1><p>1 Git 安装<br>    作为一个程序员，这个我就不多说啦</p>
+<p>2 Node 安装<br>    1&gt; 想要安装Node，最好先安装Node的版本管理工具nvm</p>
+<pre><code>wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.1/install.sh | bash
+</code></pre><p>  2&gt; 安装好后新建终端即可使用nvm来安装node</p>
+<pre><code>nvm install stable // 安装最新的稳定版Node
+</code></pre><p>3 hexo 安装<br>        npm install -g hexo-cli // 全局安装</p>
+<p>至此，前期准备全部完成，接下来就是如何使用hexo搭建自己的博客啦</p>
+<h1 id="使用Hexo搭建博客"><a href="#使用Hexo搭建博客" class="headerlink" title="使用Hexo搭建博客"></a>使用Hexo搭建博客</h1><p>正式搭建开始之前先说点废话，虽说是使用Hexo搭建博客，其实是使用了Hexo + Github Pages搭建博客，所以和Github也是息息相关的。<br>    1 在Github上创建一个代码库，我使用的是blog</p>
+<p>  2 使用Hexo创建blog项目  </p>
+<pre><code>hexo init blog; cd blog    //创建一个blog项目文件夹，并跳转进入
+npm install hexo-deployer-git --save    //通过npm添加hexo部署工具
+</code></pre><p>  3 修改blog根目录下的_config.yml文件进行配置</p>
+<pre><code>deploy:
+type: git
+repo: git代码库的地址
+branch: gh-pages // blog静态文件的部署分支
+</code></pre><p>  4 由于我们是要将静态文件部署到gh-pages分支上，所以要特别注意的是，修改_config.yml文件中url的root参数</p>
+<pre><code>url: http://yoursite.com/
+root: /blog
+</code></pre><p>  5 一切准备就绪之后，在命令行输入一下指令</p>
+<pre><code>hexo generate // 重新生成静态文件(很重要，不然新配置的参数不会生效)
+hexo deploy   // 将静态文件部署到指定分支
+</code></pre><p>至此，博客搭建工程基本完成，可以去username.github.io/blog 查看你的博客啦。</p>
+<p>由于我对Hexo的了解也不对，所以关于自定义模板之类的其他问题，我就不多说啦，等有心得的时候应该会再次更新或者发文。</p>
 
         </div>
       </div>
