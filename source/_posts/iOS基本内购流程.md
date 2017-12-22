@@ -83,7 +83,8 @@ delegate是指SKProductsRequestDelegate
 }
 ````
 监听方法和移除监听的方法一起送上，isObserver是一个判断是否已经监听的BOOL数据。
-我的建议是将监听方法和移除监听的方法都在AppDelegate中执行。当App启动时（- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions）开始监听，当App被关闭时（- (void)applicationWillTerminate:(UIApplication *)application）移除监听。至于原因，后面会提到。
+我的建议是将监听方法和移除监听的方法都在AppDelegate中执行。当App启动时（
+application didFinishLaunchingWithOptions）开始监听，当App被关闭时（applicationWillTerminate:）移除监听。至于原因，后面会提到。
 
 ####3.实现监听方法
 ````objc
@@ -148,7 +149,11 @@ payment.applicationUsername = [AppManager sharedInstance].userId.stringValue;
 	````objc
 	[[SKPaymentQueue defaultQueue] finishTransaction:transaction]
 	````
-当购买在苹果后台支付成功时，如果你的App没有调用这个方法，那么苹果就不会认为这次交易彻底成功，当你的App再次启动，并且设置了内购的监听时，监听方法- (void)paymentQueue:(SKPaymentQueue *)queue updatedTransactions:(NSArray<SKPaymentTransaction *> *)transactions就会被调用，直到你调用了上面的方法，注销了这次交易，苹果才会认为这次交易彻底完成。
+当购买在苹果后台支付成功时，如果你的App没有调用这个方法，那么苹果就不会认为这次交易彻底成功，当你的App再次启动，并且设置了内购的监听时，监听方法
+````
+	- (void)paymentQueue:(SKPaymentQueue *)queue updatedTransactions:(NSArray<SKPaymentTransaction *> *)transactions
+````
+就会被调用，直到你调用了上面的方法，注销了这次交易，苹果才会认为这次交易彻底完成。
 利用这个特性，我们可以将完成购买后注销方法放到我们向自家后台发送交易成功后调用。
 讲到这里，关于内购的大坑我目前遇到的都已经解决啦，当然，你如果实际去操作，可能还会遇到各种各样的小坑，但是没关系，我相信你能够自己解决。。。所以，我就不说啦。
 准备爬坑吧！少年！
