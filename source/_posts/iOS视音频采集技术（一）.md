@@ -18,7 +18,7 @@ categories: iOS
 视频资源获取  
   UIImagePickerController使用  
   
-  ````
+  ```objc
   if UIImagePickerController.isSourceTypeAvailable(.camera) {
 	  let imageVc = UIImagePickerController.init()
 	  imageVc.sourceType = .camera
@@ -27,12 +27,12 @@ categories: iOS
 	  imageVc.delegate = self;
 	  self.present(imageVc, animated: true, completion: nil)
   }
-  ````  
+  ```
   
   AVFoundation视音频采集 
   AVCaptureDevice -> AVCaptureDeviceInput -> AVCaptureSession 
  
-````
+```objc
   AVCaptureSession *captureSession = [[AVCaptureSession alloc] init];
   self.captureSession = captureSession;
   // 摄像头设备配置
@@ -74,28 +74,29 @@ categories: iOS
   [self.view.layer insertSublayer:previewLayer atIndex:0];
   self.captureSession.sessionPreset = AVCaptureSessionPresetHigh;
   [self.captureSession startRunning];
-````  
+```
 FileOutput视音频文件输出  
 AVCaptureSession -> AVCaptureMovieFileOutput
 	
-````
+```objc
 AVCaptureMovieFileOutput *movieFileOutput = [AVCaptureMovieFileOutput new];
 if ([self.captureSession canAddOutput:movieFileOutput]) {
 	[self.captureSession addOutput:movieFileOutput];
 }
 // 开始录像
 [self.movieFileOutput startRecordingToOutputFileURL:url recordingDelegate:self];
-````
-````
+```
+
+```objc
 - (void)captureOutput:(AVCaptureFileOutput *)captureOutput didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL fromConnections:(NSArray *)connections error:(NSError *)error {
 	// 录像结束后调用
 }
-````
+```
 Writer视音频输出
 captureSession -> captureVideo(or Audio)DataOutput
 assetWriter -> assetWriterInput
 captureSession 和 writer是平级，不需要关联
-````
+```objc
 // Output
 AVCaptureVideoDataOutput *videoDataOutput = [AVCaptureVideoDataOutput new];
 videoDataOutput.alwaysDiscardsLateVideoFrames = NO;
@@ -110,8 +111,8 @@ AVCaptureAudioDataOutput *audioDataOutput = [AVCaptureAudioDataOutput new];
 [self.captureSession addOutput:audioDataOutput];
 self.audioConnection = [audioDataOutput connectionWithMediaType:AVMediaTypeAudio];
 self.audioSettings = [audioDataOutput recommendedAudioSettingsForAssetWriterWithOutputFileType:AVFileTypeQuickTimeMovie];
-````
-````
+```
+```objc
 // Writer
 AVAssetWriter *write = [[AVAssetWriter alloc] initWithURL:url fileType:AVFileTypeQuickTimeMovie error:nil];
     
@@ -135,6 +136,6 @@ if (!success) {
     NSError *error = self.writer.error;
     NSLog(@"error ---------- %@", error);
 }
-````
+```
 视频开始采集后需要在DataOutput的代理方法中使用writerInput采集buffer。
 使用writer采集数据可定制性更高。
