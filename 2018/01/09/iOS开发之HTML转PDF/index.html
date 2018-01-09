@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+  <!-- Html Head Tag-->
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="Yu Song">
+  <!-- Open Graph Data -->
+  <meta property="og:title" content="iOS开发之HTML转PDF"/>
+  <meta property="og:description" content="" />
+  <meta property="og:site_name" content="登高望远"/>
+  <meta property="og:type" content="article" />
+  <meta property="og:image" content="http://yoursite.com"/>
+  
+    <link rel="alternate" href="/atom.xml" title="登高望远" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+
+  <!-- Site Title -->
+  <title>登高望远</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/blog/css/bootstrap.min.css">
+  <!-- Custom CSS -->
+  
+  <link rel="stylesheet" href="/blog/css/style.dark.css">
+
+  <!-- Google Analytics -->
+  
+
+</head>
+
+  <body>
+    <!-- Page Header -->
+
+
+<header class="site-header header-background" style="background-image: url(/blog//img/default-banner-dark.jpg)">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="page-title with-background-image">
+          <p class="title">iOS开发之HTML转PDF</p>
+          <p class="subtitle"></p>
+        </div>
+        <div class="site-menu with-background-image">
+          <ul>
+            
+              <li>
+                <a href="/blog/">
+                  
+                  Home
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="/blog/archives">
+                  
+                  Archives
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="https://github.com/beishankin">
+                  
+                  Github
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="mailto:syiosengineer1992@gmail.com">
+                  
+                  Email
+                  
+                </a>
+              </li>
+            
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<article>
+  <div class="container typo">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-info text-muted">
+          
+            <!-- Author -->
+            <span class="author info">By Yu Song</span>
+          
+          <!-- Date -->
+          <span class="date-time info">On
+            <span class="date">2018-01-09</span>
+            <span class="time">17:38:25</span>
+          </span>
+          
+          <!--  Categories  -->
+            <span class="categories info">Under 
+
+<a href="/blog/categories/iOS/">iOS</a>
+</span>
+          
+        </div>
+        <!-- Tags -->
+        
+          <div class="post-tags text-muted">
+            Tags: 
+
+<a class="tag" href="/blog/tags/iOS/">#iOS</a>
+
+
+          </div>
+        
+        <!-- Post Main Content -->
+        <div class="post-content">
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>最近在做一个HTML转PDF的功能，由于之前没有做过相关功能，就顺手去Google了一下，发现搜出来的文章全都千篇一律，都像是stackoverflow上一个很久之前的答案的扩展版，讲的非常粗略，没有解决我的疑惑，所以就自己研究了一下官方文档，最终成果就是这篇文章。<br>由于最近比较忙，所以我也只是简单的学习了一下，并未深处研究，有时间的话，我会再写一遍详解。</p>
+<a id="more"></a>
+<h5 style="color: red">Print 和 Image and PDF</h5>
+
+<p>Print是UIKit框架中的一个功能模块，其中包括了一些和打印相关的类和方法。我这里主要讲的是UIPrintPageRenderer和UIViewPrintFormatter。</p>
+<p>UIPrintPageRenderer是一个负责绘制Page的类，当我们想要渲染一个Page时，就需要重写UIPrintPageRenderer类，然后来自定义我们想要渲染的页面的样式。<br>UIPrintPageRenderer主要提供的重写方法有：<br>    <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">drawPage(at:<span class="keyword">in</span>:)</span><br><span class="line">drawHeaderForPage(at:<span class="keyword">in</span>:)</span><br><span class="line">drawContentForPage(at:<span class="keyword">in</span>:)</span><br><span class="line">drawPrintFormatter(<span class="number">_</span>:forPageAt:)</span><br><span class="line">drawFooterForPage(at:<span class="keyword">in</span>:)</span><br></pre></td></tr></table></figure></p>
+<p>关于这些方法的具体使用网上很多，我不细讲，我主要讲的是两个需要重新的属性：<br>    <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> paper = <span class="type">CGRect</span>(x: <span class="number">0</span>, y: <span class="number">0</span>, width: <span class="number">595.2</span>, height: <span class="number">841.8</span>)</span><br><span class="line"><span class="keyword">override</span> <span class="keyword">var</span> paperRect: <span class="type">CGRect</span> &#123;</span><br><span class="line">	<span class="keyword">return</span> paper</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">override</span> <span class="keyword">var</span> printableRect: <span class="type">CGRect</span> &#123;</span><br><span class="line">	<span class="keyword">return</span> paper</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>paperRect表示可以绘制的paper的大小(其实在输出PDF时，PDF的一页的大小是另外一个属性控制的)，printableRect表示实际绘制时的区域(其实是和别的属性共通控制的)。</p>
+<p>如果不重写这两个属性的话，绘制出来的PDF会是空白的，所以一定要重写，我这里建议将paperRect的大小设置为PDF的一页的大小，至于PDF一页的大小要如何设置，我下边会讲到。</p>
+<p>简单说完UIPrintPageRenderer，接下来讲讲UIViewPrintFormatter，看名字就知道，这是一个格式类，管理导出PDF的格式。</p>
+<p>这个UIViewPrintFormatter并不需要我们来手动创建，可以通过UIWebView(or WKWebView)、UITextView、 MKMapView调用viewPrintFormatter()来获取，自带内容，使用起来很方便。</p>
+<p>UIViewPrintFormatter自带很多和格式有关的属性和方法，有兴趣的可以去看看它的文档，我这里只讲几个下边会用到的。<br>    <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">perPageContentInsets <span class="comment">/* 用来控制PDF内容的边距的，和UIPrintPageRenderer的printableRect共通作用*/</span></span><br><span class="line">pageCount <span class="comment">//内容的页数，UIViewPrintFormatter根据layout自动计算得出，很有用</span></span><br></pre></td></tr></table></figure></p>
+<p>上文我说过，实际绘制时的区域是由printableRect控制，实际绘制区域是由printableRect和perPageContentInsets共通控制的，当perPageContentInsets和printableRect的表示类似或相同时，perPageContentInsets会被忽略。</p>
+<p>Images and PDF同样是UIKit中的一个模块，主要通过bitmap和pdf来创建和管理图片，我们经常用到的UIGraphicsBeginImageContext方法就是属于这个模块的。这个方法是用来创建一个Image的context，通过context可以获取Image，同理，想要获取PDF，也需要一些类似的方法：<br>    <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">UIGraphicsBeginPDFContextToData</span>(<span class="number">_</span>:<span class="number">_</span>:<span class="number">_</span>:) <span class="comment">/* 通过Data创建一个context */</span></span><br><span class="line"><span class="type">UIGraphicsBeginPDFPage</span>()	<span class="comment">/* 创建一个Page页 */</span></span><br><span class="line"><span class="type">UIGraphicsEndPDFContext</span>() <span class="comment">/* 关闭PDF context */</span></span><br></pre></td></tr></table></figure></p>
+<h5 style="color: red">纸张大小的转换</h5>
+
+<p>关于point和纸张大小的转换我也不知道具体公式，我只知道A4纸的大小是595.2 * 841.8，我算了一下，比例大概就是：纸张比例 * 2.843。有了这应该也可以凑活用了。</p>
+<h5 style="color: red">具体流程</h5>
+
+<p>重头戏来啦。前边说了这么多，为了就是接下来的代码展示。</p>
+<p>首先是重写UIPrintPageRenderer：<br>    <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CustomPrintPageRenderer</span>: <span class="title">UIPrintPageRenderer</span> </span>&#123;</span><br><span class="line">   <span class="keyword">let</span> paper = <span class="type">CGRect</span>(x: <span class="number">0</span>, y: <span class="number">0</span>, width: <span class="number">595.2</span>, height: <span class="number">841.8</span>)</span><br><span class="line">   <span class="keyword">override</span> <span class="keyword">var</span> paperRect: <span class="type">CGRect</span> &#123;</span><br><span class="line">       <span class="keyword">return</span> paper</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">override</span> <span class="keyword">var</span> printableRect: <span class="type">CGRect</span> &#123;</span><br><span class="line">       <span class="keyword">return</span> paper</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>接着是HTML转为PDF：<br>    <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">drawPDFUsingPrintPageRenderer</span><span class="params">(<span class="number">_</span> printPageRenderer:UIPrintPageRenderer, page: Int)</span></span> -&gt; <span class="type">NSData</span>! &#123;</span><br><span class="line">   <span class="keyword">let</span> data = <span class="type">NSMutableData</span>()</span><br><span class="line">   <span class="type">UIGraphicsBeginPDFContextToData</span>(data, <span class="type">CGRect</span>.zero, <span class="literal">nil</span>)</span><br><span class="line">   <span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">0</span>..&lt;page &#123;</span><br><span class="line">       <span class="type">UIGraphicsBeginPDFPage</span>()</span><br><span class="line">       printPageRenderer.drawPage(at: i, <span class="keyword">in</span>: <span class="type">UIGraphicsGetPDFContextBounds</span>())</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="type">UIGraphicsEndPDFContext</span>()</span><br><span class="line">   <span class="keyword">return</span> data</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">exportHTMLContentToPDF</span><span class="params">()</span></span> &#123;</span><br><span class="line">   <span class="keyword">let</span> printPageRenderer = <span class="type">CustomPrintPageRenderer</span>()</span><br><span class="line">   <span class="keyword">let</span> printFormatter = webView.viewPrintFormatter()</span><br><span class="line">   printPageRenderer.addPrintFormatter(printFormatter, startingAtPageAt: <span class="number">0</span>)</span><br><span class="line">   <span class="keyword">if</span> <span class="keyword">let</span> pdfData = drawPDFUsingPrintPageRenderer(printPageRenderer, page: printFormatter.pageCount) &#123;</span><br><span class="line">       pdfData.write(toFile: <span class="string">"test.pdf"</span>, atomically: <span class="literal">true</span>)</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>最后需要注意的一点是，我前边提到了paperRect控制的paper大小并不是PDF一页的大小。实际控制PDF一页大小的是UIGraphicsBeginPDFPage())。通过UIGraphicsBeginPDFPage()方法创建的page的大小为默认值： 612 * 792,如果想要修改PDF一页的大小，需要使用UIGraphicsBeginPDFPageWithInfo(<em>:</em>:)来创建。</p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+
+
+    <!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <p class="copyright text-muted">
+          Theme By <a target="_blank" href="https://github.com/levblanc">Levblanc.</a>
+          Inspired By <a target="_blank" href="https://github.com/klugjo/hexo-theme-clean-blog">Clean Blog.</a>
+        <p class="copyright text-muted">
+          Powered By <a target="_blank" href="https://hexo.io/">Hexo.</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- After Footer Scripts -->
+<script src="/blog/js/highlight.pack.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function(event) {
+    var codeBlocks = Array.prototype.slice.call(document.getElementsByTagName('pre'))
+    codeBlocks.forEach(function(block, index) {
+      hljs.highlightBlock(block);
+    });
+  });
+</script>
+
+  </body>
+</html>
+
