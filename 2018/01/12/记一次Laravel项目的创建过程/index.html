@@ -8,10 +8,10 @@
   <meta name="description" content="">
   <meta name="author" content="Yu Song">
   <!-- Open Graph Data -->
-  <meta property="og:title" content="登高望远"/>
+  <meta property="og:title" content="记一次Laravel项目的创建过程"/>
   <meta property="og:description" content="" />
   <meta property="og:site_name" content="登高望远"/>
-  <meta property="og:type" content="website" />
+  <meta property="og:type" content="article" />
   <meta property="og:image" content="http://yoursite.com"/>
   
     <link rel="alternate" href="/atom.xml" title="登高望远" type="application/atom+xml">
@@ -35,8 +35,7 @@
 </head>
 
   <body>
-    <!-- Archive Header -->
-<!-- Page Header -->
+    <!-- Page Header -->
 
 
 <header class="site-header header-background" style="background-image: url(/blog//img/default-banner-dark.jpg)">
@@ -44,7 +43,7 @@
     <div class="row">
       <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
         <div class="page-title with-background-image">
-          <p class="title">Blog Archives</p>
+          <p class="title">记一次Laravel项目的创建过程</p>
           <p class="subtitle"></p>
         </div>
         <div class="site-menu with-background-image">
@@ -89,42 +88,68 @@
   </div>
 </header>
 
-<!-- Archive List -->
-<div class="container">
-  <div class="row">
-    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-      
-        <div class="archive-item">
-  <a href="/blog/2018/01/12/记一次Laravel项目的创建过程/" class="post-title">
-    记一次Laravel项目的创建过程
-  </a>
-  <div class="date text-muted">Posted on 2018-01-12 17:31:24</div>
-</div>
+<article>
+  <div class="container typo">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-info text-muted">
+          
+            <!-- Author -->
+            <span class="author info">By Yu Song</span>
+          
+          <!-- Date -->
+          <span class="date-time info">On
+            <span class="date">2018-01-12</span>
+            <span class="time">17:32:06</span>
+          </span>
+          
+          <!--  Categories  -->
+            <span class="categories info">Under 
 
-      
-        <div class="archive-item">
-  <a href="/blog/2018/01/09/iOS开发之HTML转PDF/" class="post-title">
-    iOS开发之HTML转PDF
-  </a>
-  <div class="date text-muted">Posted on 2018-01-09 17:37:05</div>
-</div>
+<a href="/blog/categories/Laravel/">Laravel</a>
+</span>
+          
+        </div>
+        <!-- Tags -->
+        
+          <div class="post-tags text-muted">
+            Tags: 
 
-      
+<a class="tag" href="/blog/tags/Laravel/">#Laravel</a>
 
+
+          </div>
+        
+        <!-- Post Main Content -->
+        <div class="post-content">
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>之前使用Laravel做过几次PHP开发，但是由于很长一段时间没有再使用，这次重新拿起来感觉十分生疏，所以特此写下这篇文章，以备后用，当然，最近做的PHP项目也多了起来，可能也不会再用到这篇文章了吧。<br><a id="more"></a></p>
+<h5 style="color: red">创建项目</h5>
+
+<pre><code>composer create-project laravel/laravel project_name
+</code></pre><h5 style="color: red">添加Git</h5>
+
+<pre><code>git init
+git remote add origin git@url
+</code></pre><h5 style="color: red">修改Homestead.yaml文件</h5>
+
+<pre><code>sties:
+    - map:    test.dev
+        to:    /home/vagrant/test/public
+</code></pre><h5 style="color: red">追加Hosts</h5>
+
+<pre><code>cd /etc; sudo vim hosts
+</code></pre><p>追加新的sites，这里需要注意的一点是，hosts文件需要保持格式才能正常工作：<br><img src="hosts.png"><br>设置好site之后，最好使用cat hosts命令查看一下hosts的格式是否正确，如果没有对齐的话，需要重新调整。我由于习惯使用sublime text所以使用了sublime来编辑hosts，在sublime中看着格式是正确的，但是通过cat hosts查看之后发现其实是错的，所以这里最好还是使用vim进行编辑。</p>
+<p></p><h5 style="color: red">配置好之后发现Chorme中不是私密连接的错误</h5><br><img src="./error.png"><p></p>
+<p>这个时候点击浏览器地址栏的不安全，选择证书下边的无效:<br><img src="step2.png"></p>
+<p>将点击后出现的证书拖拽出来，然后导入到keychain的系统栏中：<br><img src="step3.png"></p>
+<p><img src="step4.png"></p>
+<p>最后将导入的证书设置为永久信任即可。</p>
+
+        </div>
+      </div>
     </div>
   </div>
-</div>
-<!-- Pagination -->
-<div class="container">
-  <div class="row">
-    <div class="col-lg-10 col-md-10 col-md-offset-1">
-      <ul class="pagination">
-          
-          
-      </ul>
-    </div>
-  </div>
-</div>
+</article>
 
 
 
