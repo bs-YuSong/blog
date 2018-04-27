@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+  <!-- Html Head Tag-->
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="Yu Song">
+  <!-- Open Graph Data -->
+  <meta property="og:title" content="iOS根据图片检测点击事件"/>
+  <meta property="og:description" content="" />
+  <meta property="og:site_name" content="登高望远"/>
+  <meta property="og:type" content="article" />
+  <meta property="og:image" content="http://yoursite.com"/>
+  
+    <link rel="alternate" href="/atom.xml" title="登高望远" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+
+  <!-- Site Title -->
+  <title>登高望远</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/blog/css/bootstrap.min.css">
+  <!-- Custom CSS -->
+  
+  <link rel="stylesheet" href="/blog/css/style.dark.css">
+
+  <!-- Google Analytics -->
+  
+
+</head>
+
+  <body>
+    <!-- Page Header -->
+
+
+<header class="site-header header-background" style="background-image: url(/blog//img/default-banner-dark.jpg)">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="page-title with-background-image">
+          <p class="title">iOS根据图片检测点击事件</p>
+          <p class="subtitle"></p>
+        </div>
+        <div class="site-menu with-background-image">
+          <ul>
+            
+              <li>
+                <a href="/blog/">
+                  
+                  Home
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="/blog/archives">
+                  
+                  Archives
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="https://github.com/beishankin">
+                  
+                  Github
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="mailto:syiosengineer1992@gmail.com">
+                  
+                  Email
+                  
+                </a>
+              </li>
+            
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<article>
+  <div class="container typo">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-info text-muted">
+          
+            <!-- Author -->
+            <span class="author info">By Yu Song</span>
+          
+          <!-- Date -->
+          <span class="date-time info">On
+            <span class="date">2018-04-27</span>
+            <span class="time">13:42:50</span>
+          </span>
+          
+          <!--  Categories  -->
+            <span class="categories info">Under 
+
+<a href="/blog/categories/iOS/">iOS</a>
+</span>
+          
+        </div>
+        <!-- Tags -->
+        
+          <div class="post-tags text-muted">
+            Tags: 
+
+<a class="tag" href="/blog/tags/iOS/">#iOS</a> <a class="tag" href="/blog/tags/CGContext/">#CGContext</a>
+
+
+          </div>
+        
+        <!-- Post Main Content -->
+        <div class="post-content">
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>由于项目需要，要实现一个图片点击事件，但是检测局域是个不规则的图片。在网上找了一下实现方法，发现资料都是讲自己绘制不规则图形，然后通过Path来检测Touch Point的是不是在Path内，跟我的需求并不相同，所以就自己想了一个办法。<br><a id="more"></a><br>问题：<br><img src="map.png" alt="地图"><br>如图，这是一个UIImageView，里边显示的是一个中国地图。当UIImageView获取touch的时候，它的检测区域是整个正方形，而我们的需求则是希望touch范围在地图内则响应，正方内而地图外的部分则不进行响应。该如何做到呢？</p>
+<p>解决方案：<br>我的思路是通过判断touch point的坐标点是否为透明来判断点击是否在地图内，如果透明，则拦截响应，如果不透明，则响应。</p>
+<p>整体思路很简单，接下来是实现方法。</p>
+<p>第一步，获取touch point的位置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- (void)touchesBegan:(NSSet&lt;UITouch *&gt; *)touches withEvent:(UIEvent *)event &#123;</span><br><span class="line">    /* 通过本方法可以获取touch point */</span><br><span class="line">    CGPoint touchPoint = [[touchs anyObject] locationInView:self]; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>第二步，检测touch point的位置在图片中是否为透明<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">- (void)touchesBegan:(NSSet&lt;UITouch *&gt; *)touches withEvent:(UIEvent *)event &#123;</span><br><span class="line">    /* 通过本方法可以获取touch point */</span><br><span class="line">    CGPoint touchPoint = [[touchs anyObject] locationInView:self];</span><br><span class="line"></span><br><span class="line">    / * 检测touch point所在位置是否为透明 */</span><br><span class="line">    unsigned char pixel[1] = &#123;0&#125;;</span><br><span class="line">    CGContextRef ctx = CGBitmapContextCreate(pixel, 1, 1, 8, 1, NULL, kCGImageAlphaOnly);</span><br><span class="line">    CGContextSetBlendMode(ctx, kCGBlendModeCopy);</span><br><span class="line">    UIGraphicsPushContext(ctx);</span><br><span class="line">    [self.image drawAtPoint:CGPointMake(-touchPoint.x, -touchPoint.y)];</span><br><span class="line">    UIGraphicsPopContext();</span><br><span class="line">    CGContextRelease(ctx);</span><br><span class="line">    CGFloat alpha = pixel[0] / 255.0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>到了这一步，通过判断alhpa的值是否小于 0.01既可以判断touch point所在位置是否透明啦。不过这种方法在实际工作中还会遇到各种意外情况，以至于影响判断的准确性。<br>例如：图片在显示的时候并没有根据自己的size显示，而是被设置了各种contentMode，这会影响我们检测的准确性。<br>所以当遇到这种情况的时候，我们需要调整整体思路。</p>
+<p>所以我在解决方法中追加了一个步骤，那就是将UIImageView实际显示出来的效果渲染成图片，然后在这张新生成的图片上检测touch point所在位置的透明度。</p>
+<p>所以最终成品代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">/* UIView的一个分类方法 */</span><br><span class="line">- (UIImage *)createImage &#123;</span><br><span class="line">       UIGraphicsBeginImageContextWithOptions(self.bounds.size, false, 1.0);</span><br><span class="line">       CGContextRef ctx = UIGraphicsGetCurrentContext();</span><br><span class="line">       /* 设置颜色代码很重要，如果缺少的话，新生成的图片默认底色为黑色 */</span><br><span class="line">       [[UIColor clearColor] setFill];</span><br><span class="line">       CGContextFillRect(ctx, self.bounds);</span><br><span class="line">       </span><br><span class="line">       [self.layer renderInContext:ctx];</span><br><span class="line">       UIImage * img = UIGraphicsGetImageFromCurrentImageContext();</span><br><span class="line">       UIGraphicsEndImageContext();</span><br><span class="line">       return img;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">- (void)touchesBegan:(NSSet&lt;UITouch *&gt; *)touches withEvent:(UIEvent *)event &#123;</span><br><span class="line">    /* 通过本方法可以获取touch point */</span><br><span class="line">    CGPoint touchPoint = [[touchs anyObject] locationInView:self];</span><br><span class="line"></span><br><span class="line">    /* 将self的layer渲染成新的image */</span><br><span class="line">    UIImage *image = [self createImage];</span><br><span class="line"></span><br><span class="line">    /* 检测touch point所在位置是否为透明 */</span><br><span class="line">    unsigned char pixel[1] = &#123;0&#125;;</span><br><span class="line">    CGContextRef ctx = CGBitmapContextCreate(pixel, 1, 1, 8, 1, NULL, kCGImageAlphaOnly);</span><br><span class="line">    CGContextSetBlendMode(ctx, kCGBlendModeCopy);</span><br><span class="line">    UIGraphicsPushContext(ctx);</span><br><span class="line">    [image drawAtPoint:CGPointMake(-touchPoint.x, -touchPoint.y)];</span><br><span class="line">    UIGraphicsPopContext();</span><br><span class="line">    CGContextRelease(ctx);</span><br><span class="line">    CGFloat alpha = pixel[0] / 255.0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>效果：<br><img src="animation.gif" alt="效果"></p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+
+
+    <!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <p class="copyright text-muted">
+          Theme By <a target="_blank" href="https://github.com/levblanc">Levblanc.</a>
+          Inspired By <a target="_blank" href="https://github.com/klugjo/hexo-theme-clean-blog">Clean Blog.</a>
+        <p class="copyright text-muted">
+          Powered By <a target="_blank" href="https://hexo.io/">Hexo.</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- After Footer Scripts -->
+<script src="/blog/js/highlight.pack.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function(event) {
+    var codeBlocks = Array.prototype.slice.call(document.getElementsByTagName('pre'))
+    codeBlocks.forEach(function(block, index) {
+      hljs.highlightBlock(block);
+    });
+  });
+</script>
+
+  </body>
+</html>
+
