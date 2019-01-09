@@ -8,10 +8,10 @@
   <meta name="description" content="">
   <meta name="author" content="Yu Song">
   <!-- Open Graph Data -->
-  <meta property="og:title" content="登高望远"/>
+  <meta property="og:title" content="Hexo博客学习笔记"/>
   <meta property="og:description" content="" />
   <meta property="og:site_name" content="登高望远"/>
-  <meta property="og:type" content="website" />
+  <meta property="og:type" content="article" />
   <meta property="og:image" content="http://yoursite.com"/>
   
     <link rel="alternate" href="/atom.xml" title="登高望远" type="application/atom+xml">
@@ -35,8 +35,7 @@
 </head>
 
   <body>
-    <!-- Archive Header -->
-<!-- Page Header -->
+    <!-- Page Header -->
 
 
 <header class="site-header header-background" style="background-image: url(/blog//img/default-banner-dark.jpg)">
@@ -44,7 +43,7 @@
     <div class="row">
       <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
         <div class="page-title with-background-image">
-          <p class="title">Blog Archives</p>
+          <p class="title">Hexo博客学习笔记</p>
           <p class="subtitle"></p>
         </div>
         <div class="site-menu with-background-image">
@@ -89,98 +88,55 @@
   </div>
 </header>
 
-<!-- Archive List -->
-<div class="container">
-  <div class="row">
-    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-      
-        <div class="archive-item">
-  <a href="/blog/2019/01/09/iOS屏幕旋转总结/" class="post-title">
-    iOS屏幕旋转总结
-  </a>
-  <div class="date text-muted">Posted on 2019-01-09 11:33:36</div>
-</div>
+<article>
+  <div class="container typo">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-info text-muted">
+          
+            <!-- Author -->
+            <span class="author info">By Yu Song</span>
+          
+          <!-- Date -->
+          <span class="date-time info">On
+            <span class="date">2019-01-09</span>
+            <span class="time">15:47:22</span>
+          </span>
+          
+          <!--  Categories  -->
+            <span class="categories info">Under 
 
-      
-        <div class="archive-item">
-  <a href="/blog/2019/01/09/Hexo博客学习笔记/" class="post-title">
-    Hexo博客学习笔记
-  </a>
-  <div class="date text-muted">Posted on 2019-01-09 11:32:05</div>
-</div>
+<a href="/blog/categories/笔记/">笔记</a>
+</span>
+          
+        </div>
+        <!-- Tags -->
+        
+          <div class="post-tags text-muted">
+            Tags: 
 
-      
-        <div class="archive-item">
-  <a href="/blog/2018/04/27/iOS根据图片检测点击事件/" class="post-title">
-    iOS根据图片检测点击事件
-  </a>
-  <div class="date text-muted">Posted on 2018-04-27 13:42:32</div>
-</div>
+<a class="tag" href="/blog/tags/hexo/">#hexo</a>
 
-      
-        <div class="archive-item">
-  <a href="/blog/2018/01/12/记一次Laravel项目的创建过程/" class="post-title">
-    记一次Laravel项目的创建过程
-  </a>
-  <div class="date text-muted">Posted on 2018-01-12 17:31:24</div>
-</div>
 
-      
-        <div class="archive-item">
-  <a href="/blog/2018/01/09/iOS开发之HTML转PDF/" class="post-title">
-    iOS开发之HTML转PDF
-  </a>
-  <div class="date text-muted">Posted on 2018-01-09 17:37:05</div>
-</div>
+          </div>
+        
+        <!-- Post Main Content -->
+        <div class="post-content">
+          <p>记录一下Hexo中常用的功能。</p>
+<a id="more"></a>
+<p>1 草稿功能<br>在Hexo中文章可以分文post和draft两种类型，分别存放在source目录下的_drafts和_posts文件夹中。post代表正式发布的文章，draft代表草稿。<br>如果想要创建draft,只需要在创建文章时指定其layout为draft即可</p>
+<pre><code>hexo new draft &lt;title&gt;
+</code></pre><p>如果想要将draft移动到post，只需要执行public命令修改文章layout即可：</p>
+<pre><code>hexo publish [layout] &lt;title&gt;
+</code></pre><p>draft布局的文章默认是不会展示的，如果想要预览，需要使用一下命令：</p>
+<pre><code>hexo server --draft
+</code></pre><p>如果不想每次都如此，可以修改_config.yml中的参数：render_drafts: ture</p>
 
-      
-        <div class="archive-item">
-  <a href="/blog/2017/12/22/Hexo博客搭建/" class="post-title">
-    Hexo博客搭建
-  </a>
-  <div class="date text-muted">Posted on 2017-12-22 14:03:18</div>
-</div>
-
-      
-        <div class="archive-item">
-  <a href="/blog/2016/11/24/iOS视音频采集技术（一）/" class="post-title">
-    iOS视音频采集技术（一）
-  </a>
-  <div class="date text-muted">Posted on 2016-11-24 11:07:23</div>
-</div>
-
-      
-        <div class="archive-item">
-  <a href="/blog/2016/07/19/iOS基本内购流程/" class="post-title">
-    iOS基本内购流程
-  </a>
-  <div class="date text-muted">Posted on 2016-07-19 17:55:41</div>
-</div>
-
-      
-        <div class="archive-item">
-  <a href="/blog/2016/07/18/UIButton的背景色与状态/" class="post-title">
-    UIButton的背景色与状态
-  </a>
-  <div class="date text-muted">Posted on 2016-07-18 17:30:49</div>
-</div>
-
-      
-
+        </div>
+      </div>
     </div>
   </div>
-</div>
-<!-- Pagination -->
-<div class="container">
-  <div class="row">
-    <div class="col-lg-10 col-md-10 col-md-offset-1">
-      <ul class="pagination">
-          
-          
-      </ul>
-    </div>
-  </div>
-</div>
+</article>
 
 
 

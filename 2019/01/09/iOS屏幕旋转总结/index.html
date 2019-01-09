@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+  <!-- Html Head Tag-->
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="Yu Song">
+  <!-- Open Graph Data -->
+  <meta property="og:title" content="iOS屏幕旋转总结"/>
+  <meta property="og:description" content="" />
+  <meta property="og:site_name" content="登高望远"/>
+  <meta property="og:type" content="article" />
+  <meta property="og:image" content="http://yoursite.com"/>
+  
+    <link rel="alternate" href="/atom.xml" title="登高望远" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+
+  <!-- Site Title -->
+  <title>登高望远</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/blog/css/bootstrap.min.css">
+  <!-- Custom CSS -->
+  
+  <link rel="stylesheet" href="/blog/css/style.dark.css">
+
+  <!-- Google Analytics -->
+  
+
+</head>
+
+  <body>
+    <!-- Page Header -->
+
+
+<header class="site-header header-background" style="background-image: url(/blog//img/default-banner-dark.jpg)">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="page-title with-background-image">
+          <p class="title">iOS屏幕旋转总结</p>
+          <p class="subtitle"></p>
+        </div>
+        <div class="site-menu with-background-image">
+          <ul>
+            
+              <li>
+                <a href="/blog/">
+                  
+                  Home
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="/blog/archives">
+                  
+                  Archives
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="https://github.com/beishankin">
+                  
+                  Github
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="mailto:syiosengineer1992@gmail.com">
+                  
+                  Email
+                  
+                </a>
+              </li>
+            
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<article>
+  <div class="container typo">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-info text-muted">
+          
+            <!-- Author -->
+            <span class="author info">By Yu Song</span>
+          
+          <!-- Date -->
+          <span class="date-time info">On
+            <span class="date">2019-01-09</span>
+            <span class="time">15:47:22</span>
+          </span>
+          
+          <!--  Categories  -->
+            <span class="categories info">Under 
+
+<a href="/blog/categories/iOS/">iOS</a>
+</span>
+          
+        </div>
+        <!-- Tags -->
+        
+          <div class="post-tags text-muted">
+            Tags: 
+
+<a class="tag" href="/blog/tags/iOS/">#iOS</a>
+
+
+          </div>
+        
+        <!-- Post Main Content -->
+        <div class="post-content">
+          <p>屏幕旋转这个功能点，因为受到的影响条件比较多，所以在我看来，是个比较容易搞混的知识点，借此机会，总结一下，希望对大家理解iOS系统的屏幕旋转有所帮助。</p>
+<a id="more"></a>
+<p></p><h4>1. 设备的物理方向</h4><br><img src="device_orientation.png" alt="设备物理方向"><p></p>
+<p>在iOS系统中，可以通过代码获取设备当前的屏幕状态：</p>
+<pre><code>UIDevice.current.orientation    //Swift
+[UIDevice currentDevice].orientation    //Object-C
+</code></pre><p>相较于界面显示方向，设备物理方向多了FaceUp和FaceDown两个状态，分别是，屏幕朝上跟屏幕朝下，这个是界面显示方向所不具备的。</p>
+<p>关于物理设备方向有一点需要注意，那就是当屏幕方向被强制修改的时候，有可能会出现unknow状态，这种情况下，需要设备状态再次更改之后，设备才能获取到正确的状态。</p>
+<p></p><h4>2. 界面的显示方向</h4><p></p>
+<center><img src="interface_orientation.png" alt="屏幕方向"><br>屏幕方向</center><br><br><br><center><img src="interface_orientation_mask.png" alt="屏幕支持方向"><br>屏幕支持方向</center>
+
+<p>屏幕支持方向可以自由组合，是OptionSet类型。</p>
+<p></p><h4>3. 有哪些点会影响到屏幕的旋转</h4><p></p>
+<center><img src="Xcode_orientation.png" alt="Xcode中设置屏幕支持方向"><br>Xcode中设置屏幕支持方向</center>
+
+<p>在Xcode中设置完屏幕支持方向之后，如果在AppDelegate中，实现如下方法，则可以覆盖掉Xcode中设置的屏幕支持方向，在某些情况下会很有用</p>
+<pre><code>func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -&gt; UIInterfaceOrientationMask {
+    return .all
+}
+</code></pre><p>除了在Xcode和AppDelegate之中设置屏幕支持方向之外，我们最常用的其实是在ViewController中来控制屏幕是否支持旋转，屏幕支持旋转方向和默认屏幕方向，要实现屏幕旋转的精准控制，就需要实现以下方法：</p>
+<pre><code>override var shouldAutorotate: Bool {    // 是否支持屏幕自动旋转
+    var result = true
+    return result
+}
+
+override var supportedInterfaceOrientations: UIInterfaceOrientationMask {    // 屏幕支持旋转的方向
+    return IS_IPAD ? .all : .allButUpsideDown
+}
+
+override var preferredInterfaceOrientationForPresentation: UIInterfaceOrientation {    // 屏幕当前默认方向
+    return .portrait
+}
+</code></pre><p><strong>这里有两点需要注意，屏幕实际上可以支持的方向，是AppDelegate中支持的和supportedInterfaceOrientations方法中支持的并集。<br>还有，设备方向被改变的时候，shouldAutorotate都会被调用，这为我们的灵活操作提供了很大的空间啊！</strong></p>
+<p>理想来说，通过这3个方法，就可以很灵活的来控制屏幕旋转相关的操作。</p>
+<p>但是,现实很骨感，这3个方法其实还受很多东西的影响。</p>
+<p><strong>这3个方法，只有当Controller是window的第一个Controller时才会被调用，也就是只有window的rootViewController才会调用，所以如果想要自由操作，就需要重新rootViewController的这三个方法，将当前viewController的这三个方法返回，达到灵活控制的目的。常见的就是在UITabBarController或者UINavigationController中实现这三个方法。</strong></p>
+<p>或者，使用Modal，在Present出来的ViewController中来实现这三个方法，也可以自由控制屏幕旋转。</p>
+<p>一般来说，到目前为止的知识点就足够啦，不过实际上，由于iOS系统的版本不同，还会出现各种问题。</p>
+<p></p><h4>4. 各种设备上屏幕旋转的微妙不同</h4><br>这里我就说一下，我遇到的一些问题，并讲一下如何解决。<p></p>
+<p>从iOS9开始，在Xcode中如果没有勾选Requires full screen选项，那么，在iPad上，即使实现了shouldAutorotate方法，也不会被正常调用，因为在这种情况下，iPad默认是支持所有的屏幕方向的。</p>
+<p><strong>那么如何解决呢？答案前边已经写了，就是勾选上Requires full screen选项。</strong></p>
+<center><img src="rquires.png" alt="rquires"><br>勾选requires full screen</center>
+
+<p>但是要注意，一旦勾选了requires full screen选项，就说明这个App将不再具备分屏功能，必须是全屏App啦。</p>
+<p>参考：<br><a href="https://www.jianshu.com/p/e473749f1c30" target="_blank" rel="noopener">https://www.jianshu.com/p/e473749f1c30</a><br><a href="http://www.cocoachina.com/ios/20170711/19808.html" target="_blank" rel="noopener">http://www.cocoachina.com/ios/20170711/19808.html</a><br><a href="http://foggry.com/blog/2014/08/08/ping-mu-xuan-zhuan-xue-xi-bi-ji/" target="_blank" rel="noopener">http://foggry.com/blog/2014/08/08/ping-mu-xuan-zhuan-xue-xi-bi-ji/</a><br><a href="https://www.jianshu.com/p/62431e148e68" target="_blank" rel="noopener">https://www.jianshu.com/p/62431e148e68</a></p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+
+
+    <!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <p class="copyright text-muted">
+          Theme By <a target="_blank" href="https://github.com/levblanc">Levblanc.</a>
+          Inspired By <a target="_blank" href="https://github.com/klugjo/hexo-theme-clean-blog">Clean Blog.</a>
+        <p class="copyright text-muted">
+          Powered By <a target="_blank" href="https://hexo.io/">Hexo.</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- After Footer Scripts -->
+<script src="/blog/js/highlight.pack.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function(event) {
+    var codeBlocks = Array.prototype.slice.call(document.getElementsByTagName('pre'))
+    codeBlocks.forEach(function(block, index) {
+      hljs.highlightBlock(block);
+    });
+  });
+</script>
+
+  </body>
+</html>
+
