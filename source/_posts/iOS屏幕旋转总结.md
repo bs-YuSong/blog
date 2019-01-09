@@ -80,9 +80,18 @@ Xcode中设置屏幕支持方向</center>
 
 但是要注意，一旦勾选了requires full screen选项，就说明这个App将不再具备分屏功能，必须是全屏App啦。
 
+<h4>5. 屏幕旋转的流程</h4>
+屏幕旋转的流程如下：
+1>、加速计来识别设备的旋转方向。
+发送 UIDeviceOrientationDidChangeNotification 设备旋转的通知。
+2>、app 接收到旋转事件（通知事件）。
+2>、app 通过AppDelegate通知当前程序的KeyWindow。
+3>、Window 会知会它的 rootViewController，判断该view controller所支持的旋转方向，完成旋转。
+4>、如果存在 modal 的view controller的话，系统则会根据 modal 的view controller，来判断是否要进行旋转。
 
 参考：
 https://www.jianshu.com/p/e473749f1c30
 http://www.cocoachina.com/ios/20170711/19808.html
 http://foggry.com/blog/2014/08/08/ping-mu-xuan-zhuan-xue-xi-bi-ji/
+https://www.jianshu.com/p/62431e148e68
 https://www.jianshu.com/p/62431e148e68
