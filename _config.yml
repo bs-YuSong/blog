@@ -78,6 +78,6 @@ theme_style: dark
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: git@github.com:BeiShanKin/blog.git
+  repo: git@github.com:BeiShanKin/beishankin.github.io.git
   branch: gh-pages
 
