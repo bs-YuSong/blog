@@ -2,7 +2,9 @@
 title: Hexo博客学习笔记
 tags: hexo
 categories: 笔记
+date: 2019-01-09 11:32:05
 ---
+
 
 记录一下Hexo中常用的功能。
 

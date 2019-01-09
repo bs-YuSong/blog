@@ -36,3 +36,9 @@ categories: iOS
 
 
 参考：[iOS开发之Xcode常用调试（Debug）技巧总结](http://www.yangshebing.com/2016/10/27/iOS%E5%BC%80%E5%8F%91%E4%B9%8BXcode%E5%B8%B8%E7%94%A8%E8%B0%83%E8%AF%95%EF%BC%88Debug%EF%BC%89%E6%8A%80%E5%B7%A7%E6%80%BB%E7%BB%93/)
+https://makezl.github.io/2016/06/27/dylib/
+https://developer.apple.com/library/content/documentation/IDEs/Conceptual/gdb_to_lldb_transition_guide/document/Introduction.html
+https://developer.apple.com/library/content/documentation/IDEs/Conceptual/gdb_to_lldb_transition_guide/document/lldb-command-examples.html
+http://www.cocoachina.com/ios/20150225/11190.html
+https://developer.apple.com/videos/play/wwdc2013/407/
+http://ocmock.org/

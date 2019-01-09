@@ -35,3 +35,6 @@ categories:
 15. rawValue和associated value的区别
 
 16. 
+
+参考：https://www.cnswift.org/properties#spl-3
+https://www.jianshu.com/p/8b5344da29d8

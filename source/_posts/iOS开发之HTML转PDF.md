@@ -73,10 +73,10 @@ Images and PDF同样是UIKit中的一个模块，主要通过bitmap和pdf来创�
 	class CustomPrintPageRenderer: UIPrintPageRenderer {
     let paper = CGRect(x: 0, y: 0, width: 595.2, height: 841.8)
     override var paperRect: CGRect {
-        return paper
+      return paper
     }
     override var printableRect: CGRect {
-        return paper
+      return paper
     }
 	}
 	```
@@ -86,8 +86,8 @@ Images and PDF同样是UIKit中的一个模块，主要通过bitmap和pdf来创�
     let data = NSMutableData()
     UIGraphicsBeginPDFContextToData(data, CGRect.zero, nil)
     for i in 0..<page {
-        UIGraphicsBeginPDFPage()
-        printPageRenderer.drawPage(at: i, in: UIGraphicsGetPDFContextBounds())
+      UIGraphicsBeginPDFPage()
+      printPageRenderer.drawPage(at: i, in: UIGraphicsGetPDFContextBounds())
     }
     UIGraphicsEndPDFContext()
     return data
@@ -96,9 +96,10 @@ Images and PDF同样是UIKit中的一个模块，主要通过bitmap和pdf来创�
     let printPageRenderer = CustomPrintPageRenderer()
     let printFormatter = webView.viewPrintFormatter()
     printPageRenderer.addPrintFormatter(printFormatter, startingAtPageAt: 0)
-    if let pdfData = drawPDFUsingPrintPageRenderer(printPageRenderer, page: printFormatter.pageCount), let directory = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, .allDomainsMask, true).last {
-    	let path = directory + "/test.pdf"
-      	pdfData.write(toFile: path, atomically: true)
+    if let pdfData = drawPDFUsingPrintPageRenderer(printPageRenderer, page: printFormatter.pageCount),
+    let directory = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, .allDomainsMask, true).last {  
+      let path = directory + "/test.pdf"
+      pdfData.write(toFile: path, atomically: true)
     }
 	}
 	```
