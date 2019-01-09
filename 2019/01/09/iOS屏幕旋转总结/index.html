@@ -100,7 +100,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2019-01-09</span>
-            <span class="time">16:43:44</span>
+            <span class="time">16:54:49</span>
           </span>
           
           <!--  Categories  -->
@@ -166,7 +166,8 @@ override var preferredInterfaceOrientationForPresentation: UIInterfaceOrientatio
 <center><img src="rquires.png" alt="rquires"><br>勾选requires full screen</center>
 
 <p>但是要注意，一旦勾选了requires full screen选项，就说明这个App将不再具备分屏功能，必须是全屏App啦。</p>
-<p>参考：<br><a href="https://www.jianshu.com/p/e473749f1c30" target="_blank" rel="noopener">https://www.jianshu.com/p/e473749f1c30</a><br><a href="http://www.cocoachina.com/ios/20170711/19808.html" target="_blank" rel="noopener">http://www.cocoachina.com/ios/20170711/19808.html</a><br><a href="http://foggry.com/blog/2014/08/08/ping-mu-xuan-zhuan-xue-xi-bi-ji/" target="_blank" rel="noopener">http://foggry.com/blog/2014/08/08/ping-mu-xuan-zhuan-xue-xi-bi-ji/</a><br><a href="https://www.jianshu.com/p/62431e148e68" target="_blank" rel="noopener">https://www.jianshu.com/p/62431e148e68</a></p>
+<p></p><h4>5. 屏幕旋转的流程</h4><br>屏幕旋转的流程如下：<br>1&gt;、加速计来识别设备的旋转方向。<br>发送 UIDeviceOrientationDidChangeNotification 设备旋转的通知。<br>2&gt;、app 接收到旋转事件（通知事件）。<br>2&gt;、app 通过AppDelegate通知当前程序的KeyWindow。<br>3&gt;、Window 会知会它的 rootViewController，判断该view controller所支持的旋转方向，完成旋转。<br>4&gt;、如果存在 modal 的view controller的话，系统则会根据 modal 的view controller，来判断是否要进行旋转。<p></p>
+<p>参考：<br><a href="https://www.jianshu.com/p/e473749f1c30" target="_blank" rel="noopener">https://www.jianshu.com/p/e473749f1c30</a><br><a href="http://www.cocoachina.com/ios/20170711/19808.html" target="_blank" rel="noopener">http://www.cocoachina.com/ios/20170711/19808.html</a><br><a href="http://foggry.com/blog/2014/08/08/ping-mu-xuan-zhuan-xue-xi-bi-ji/" target="_blank" rel="noopener">http://foggry.com/blog/2014/08/08/ping-mu-xuan-zhuan-xue-xi-bi-ji/</a><br><a href="https://www.jianshu.com/p/62431e148e68" target="_blank" rel="noopener">https://www.jianshu.com/p/62431e148e68</a><br><a href="https://www.jianshu.com/p/62431e148e68" target="_blank" rel="noopener">https://www.jianshu.com/p/62431e148e68</a></p>
 
         </div>
       </div>
