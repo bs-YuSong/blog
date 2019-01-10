@@ -63,4 +63,8 @@ categories: 杂项
 
 至此，博客搭建工程基本完成，可以去username.github.io/blog 查看你的博客啦。
 
-由于我对Hexo的了解也不对，所以关于自定义模板之类的其他问题，我就不多说啦，等有心得的时候应该会再次更新或者发文。
+PS: 有些博主在通过git pages部署博客的时候，希望将网址直接设为：<username>.github.io，想要达到这种效果的话，就不能使用gh-pages分支，而应该在master分支上部署博客。如果你的项目名就叫做：<username>.github.io，那么在默认情况下，github就会认为你的git pages的分支就是master分支，这时如果你去repo -> setting里查看git pages的分支设置，就会发现，branch锁死的就是master分支，而无法更改。这种情况如要注意。
+
+我就是因为对这一点不了解，在改变网址的时候，明明使用的屎gh-pages的分支，结果想要将域名设置为<username>.github.io，一直出现404错误，于是花了很多时间，才发现这个问题。
+
+<strong>总结一句话，如果你的项目给名叫做<username>.github.io，那么你的git pages就默认实在master分支上，域名也会是<username>.github.io，这种情况，是不会使用gh-pages分支的。如果你把博客文件部署到了gh-pages分支上了，就会出现404错误。因为git pages无法在master分支上找到index.html这个文件！</strong>
