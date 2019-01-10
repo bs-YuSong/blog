@@ -68,3 +68,8 @@ PS: 有些博主在通过git pages部署博客的时候，希望将网址直接�
 我就是因为对这一点不了解，在改变网址的时候，明明使用的屎gh-pages的分支，结果想要将域名设置为<username>.github.io，一直出现404错误，于是花了很多时间，才发现这个问题。
 
 <strong>总结一句话，如果你的项目给名叫做<username>.github.io，那么你的git pages就默认实在master分支上，域名也会是<username>.github.io，这种情况，是不会使用gh-pages分支的。如果你把博客文件部署到了gh-pages分支上了，就会出现404错误。因为git pages无法在master分支上找到index.html这个文件！</strong>
+
+
+参考文章：
+https://stackoverflow.com/questions/39978856/unable-to-change-source-branch-in-github-pages
+https://stackoverflow.com/questions/39837559/why-isnt-my-page-loading-up-on-github
