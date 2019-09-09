@@ -89,6 +89,14 @@ Xcode中设置屏幕支持方向</center>
 3>、Window 会知会它的 rootViewController，判断该view controller所支持的旋转方向，完成旋转。
 4>、如果存在 modal 的view controller的话，系统则会根据 modal 的view controller，来判断是否要进行旋转。
 
+<h4>6. 如何让屏幕不旋转，而屏幕中的控件来旋转</h4>
+这是最近遇到的项目里的一个功能，参考iOS12系统上，iPhone的相机，当设备旋转的时候，屏幕并没有旋转，而屏幕上的按钮却发生了旋转。
+我想到的思路是，关闭屏幕旋转功能，即：shouldAutorotate返回false，然后通过NotificationCenter来监听设备的旋转：
+    
+    NotificationCenter.default.addObserver(self, selector: #selector(rotationCall(noti:)), name: UIDevice.orientationDidChangeNotification, object: nil)
+
+然后在监听方法中实现，将控件进行旋转就可以啦。
+
 参考：
 https://www.jianshu.com/p/e473749f1c30
 http://www.cocoachina.com/ios/20170711/19808.html
