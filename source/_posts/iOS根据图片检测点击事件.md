@@ -21,15 +21,15 @@ date: 2018-04-27 13:42:32
 整体思路很简单，接下来是实现方法。
 
 第一步，获取touch point的位置：
-```OC
+````objc
 	- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
 	    /* 通过本方法可以获取touch point */
 	    CGPoint touchPoint = [[touchs anyObject] locationInView:self]; 
 	}
-```
+````
 
 第二步，检测touch point的位置在图片中是否为透明
-```OC
+````objc
 	- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
 	    /* 通过本方法可以获取touch point */
 	    CGPoint touchPoint = [[touchs anyObject] locationInView:self];
@@ -44,7 +44,7 @@ date: 2018-04-27 13:42:32
 	    CGContextRelease(ctx);
 	    CGFloat alpha = pixel[0] / 255.0;
 	}
-```
+````
 到了这一步，通过判断alhpa的值是否小于 0.01既可以判断touch point所在位置是否透明啦。不过这种方法在实际工作中还会遇到各种意外情况，以至于影响判断的准确性。
 例如：图片在显示的时候并没有根据自己的size显示，而是被设置了各种contentMode，这会影响我们检测的准确性。
 所以当遇到这种情况的时候，我们需要调整整体思路。
@@ -52,7 +52,7 @@ date: 2018-04-27 13:42:32
 所以我在解决方法中追加了一个步骤，那就是将UIImageView实际显示出来的效果渲染成图片，然后在这张新生成的图片上检测touch point所在位置的透明度。
 
 所以最终成品代码如下：
-````OC
+````objc
 	/* UIView的一个分类方法 */
 	- (UIImage *)createImage {
         UIGraphicsBeginImageContextWithOptions(self.bounds.size, false, 1.0);
@@ -68,7 +68,7 @@ date: 2018-04-27 13:42:32
 	}
 ````
 
-```OC
+````objc
 	- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
 	    /* 通过本方法可以获取touch point */
 	    CGPoint touchPoint = [[touchs anyObject] locationInView:self];
@@ -86,7 +86,7 @@ date: 2018-04-27 13:42:32
 	    CGContextRelease(ctx);
 	    CGFloat alpha = pixel[0] / 255.0;
 	}
-	```
+````
 
 效果：
 ![效果](animation.gif)
