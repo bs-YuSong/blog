@@ -221,11 +221,16 @@
 </code></pre><p>相较于界面显示方向，设备物理方向多了FaceUp和FaceDown两个状态，分别是，屏幕朝上跟屏幕朝下，这个是界面显示方向所不具备的。</p>
 <p>关于物理设备方向有一点需要注意，那就是当屏幕方向被强制修改的时候，有可能会出现unknow状态，这种情况下，需要设备状态再次更改之后，设备才能获取到正确的状态。</p>
 <p></p><h4>2. 界面的显示方向</h4><p></p>
-<center><img src="interface_orientation.png" alt="屏幕方向"><br>屏幕方向</center><br><br><br><center><img src="interface_orientation_mask.png" alt="屏幕支持方向"><br>屏幕支持方向</center>
+<center>![屏幕方向](interface_orientation.png)
+屏幕方向</center>
+<br>
+<center>![屏幕支持方向](interface_orientation_mask.png)
+屏幕支持方向</center>
 
 <p>屏幕支持方向可以自由组合，是OptionSet类型。</p>
 <p></p><h4>3. 有哪些点会影响到屏幕的旋转</h4><p></p>
-<center><img src="Xcode_orientation.png" alt="Xcode中设置屏幕支持方向"><br>Xcode中设置屏幕支持方向</center>
+<center>![Xcode中设置屏幕支持方向](Xcode_orientation.png)
+Xcode中设置屏幕支持方向</center>
 
 <p>在Xcode中设置完屏幕支持方向之后，如果在AppDelegate中，实现如下方法，则可以覆盖掉Xcode中设置的屏幕支持方向，在某些情况下会很有用</p>
 <pre><code>func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -&gt; UIInterfaceOrientationMask {
@@ -248,12 +253,13 @@ override var preferredInterfaceOrientationForPresentation: UIInterfaceOrientatio
 <p>理想来说，通过这3个方法，就可以很灵活的来控制屏幕旋转相关的操作。</p>
 <p>但是,现实很骨感，这3个方法其实还受很多东西的影响。</p>
 <p><strong>这3个方法，只有当Controller是window的第一个Controller时才会被调用，也就是只有window的rootViewController才会调用，所以如果想要自由操作，就需要重新rootViewController的这三个方法，将当前viewController的这三个方法返回，达到灵活控制的目的。常见的就是在UITabBarController或者UINavigationController中实现这三个方法。</strong></p>
-<p>或者，使用Modal，在Present出来的ViewController中来实现这三个方法，也可以自由控制屏幕旋转。</p>
+<p>或者，使用Modal，在Present出来的ViewController中来实现这三个方法，也可以自由控制屏幕旋转。&lt;/strong&gt;</p>
 <p>一般来说，到目前为止的知识点就足够啦，不过实际上，由于iOS系统的版本不同，还会出现各种问题。</p>
 <p></p><h4>4. 各种设备上屏幕旋转的微妙不同</h4><br>这里我就说一下，我遇到的一些问题，并讲一下如何解决。<p></p>
 <p>从iOS9开始，在Xcode中如果没有勾选Requires full screen选项，那么，在iPad上，即使实现了shouldAutorotate方法，也不会被正常调用，因为在这种情况下，iPad默认是支持所有的屏幕方向的。</p>
 <p><strong>那么如何解决呢？答案前边已经写了，就是勾选上Requires full screen选项。</strong></p>
-<center><img src="rquires.png" alt="rquires"><br>勾选requires full screen</center>
+<center>![rquires](rquires.png)
+勾选requires full screen</center>
 
 <p>但是要注意，一旦勾选了requires full screen选项，就说明这个App将不再具备分屏功能，必须是全屏App啦。</p>
 <p></p><h4>5. 屏幕旋转的流程</h4><br>屏幕旋转的流程如下：<br>1&gt;、加速计来识别设备的旋转方向。<br>发送 UIDeviceOrientationDidChangeNotification 设备旋转的通知。<br>2&gt;、app 接收到旋转事件（通知事件）。<br>2&gt;、app 通过AppDelegate通知当前程序的KeyWindow。<br>3&gt;、Window 会知会它的 rootViewController，判断该view controller所支持的旋转方向，完成旋转。<br>4&gt;、如果存在 modal 的view controller的话，系统则会根据 modal 的view controller，来判断是否要进行旋转。<p></p>
@@ -308,7 +314,7 @@ override var preferredInterfaceOrientationForPresentation: UIInterfaceOrientatio
 
                     
                 </ul>
-                <p class="copyright text-muted">&copy; 2019 Yu Song<br></p>
+                <p class="copyright text-muted">&copy; 2020 Yu Song<br></p>
                 <p class="copyright text-muted">Original Theme <a target="_blank" href="http://startbootstrap.com/template-overviews/clean-blog/">Clean Blog</a> from <a href="http://startbootstrap.com/" target="_blank">Start Bootstrap</a></p>
                 <p class="copyright text-muted">Adapted for <a target="_blank" href="https://hexo.io/">Hexo</a> by <a href="http://www.codeblocq.com/" target="_blank">Jonathan Klughertz</a></p>
             </div>
@@ -331,6 +337,23 @@ override var preferredInterfaceOrientationForPresentation: UIInterfaceOrientatio
 <!-- Disqus Comments -->
 
 
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!-- <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
 </body>
 
