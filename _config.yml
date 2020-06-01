@@ -81,3 +81,7 @@ deploy:
   repo: git@github.com:BeiShanKin/blog.git
   branch: gh-pages
 
+# mathjax
+mathjax:
+    enable: true
+
