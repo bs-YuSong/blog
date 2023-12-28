@@ -5,14 +5,14 @@ menu:
   Tags: /tags
   Categories: /categories
   Github:
-    url: https://github.com/beishankin
+    url: https://github.com/bs-yusong
     icon: github
 
 # Title on top left of menu. Leave empty to use main blog title
 menu_title: Start
 
 # URL of the Home page image
-index_cover: /img/road.jpg
+index_cover: /blog/img/road.jpg
 
 # Default post title
 default_post_title: Untitled
@@ -44,3 +44,10 @@ github_url: https://github.com/beishankin
 gitlab_url:
 linkedin_url:
 mailto:
+
+
+# MathJax Support
+mathjax:
+  enable: true
+  per_page: false
+  cdn: //cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML
